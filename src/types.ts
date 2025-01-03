@@ -14,7 +14,7 @@ export interface RegistryData {
 
 export interface Skill extends RegistryData {
   description: string;
-  reference?: string;
+  reference: string;
 }
 
 export interface Person extends RegistryData {

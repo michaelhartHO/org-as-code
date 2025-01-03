@@ -10,13 +10,13 @@ Deno.test("Registrar addSkill ok", () => {
   const registrar = new Registrar(() => {});
   registrar
     .on("2021-01-01")
-    .addSkill({ tag: "tag", description: "description" });
+    .addSkill({ tag: "tag", description: "description", reference: "reference" });
 });
 
 Deno.test("Registrar addSkill throws if on not called", () => {
   const registrar = new Registrar(() => {});
   assertThrows(
-    () => registrar.addSkill({ tag: "tag", description: "description" }),
+    () => registrar.addSkill({ tag: "tag", description: "description", reference: "reference" }),
     Error,
     `No data point date set. Call "on()" first.`,
   );

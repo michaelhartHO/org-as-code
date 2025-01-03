@@ -9,6 +9,8 @@ import {
   ON_DATE_1_JAN_2021,
   TAG_1,
   TAG_2,
+  REFERENCE_1,
+  REFERENCE_2,
 } from "./data-points/00/000-skills.ts";
 
 const dataPointsPath = "./test/data-points";
@@ -21,9 +23,11 @@ Deno.test("registerDataPoints ok", async () => {
   assertSpyCallArgs(dbInsertFn, 0, [new LibDate(ON_DATE_1_JAN_2021), "skill", {
     tag: TAG_1,
     description: DESCRIPTION_1,
+    reference: REFERENCE_1,
   }]);
   assertSpyCallArgs(dbInsertFn, 1, [new LibDate(ON_DATE_01_01_2025), "skill", {
     tag: TAG_2,
     description: DESCRIPTION_2,
+    reference: REFERENCE_2,
   }]);
 });

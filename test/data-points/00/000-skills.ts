@@ -8,6 +8,9 @@ export const TAG_1 = "java11";
 export const TAG_2 = "TypeScript 5.7";
 export const DESCRIPTION_1 = "Java v11 development";
 export const DESCRIPTION_2 = "TypeScript 5.7 development";
+export const REFERENCE_1 = "https://docs.oracle.com/en/java/javase/11/";
+export const REFERENCE_2 =
+  "https://devblogs.microsoft.com/typescript/announcing-typescript-5-7/";
 
 export function register(registrar: RegistrarInterface) {
   registrar
@@ -15,12 +18,12 @@ export function register(registrar: RegistrarInterface) {
     .addSkill({
       tag: TAG_1,
       description: DESCRIPTION_1,
-      //   reference: "https://docs.oracle.com/en/java/javase/11/",
+      reference: REFERENCE_1,
     })
     .on(ON_DATE_01_01_2025)
     .addSkill({
       tag: TAG_2,
       description: DESCRIPTION_2,
-      // reference: "https://devblogs.microsoft.com/typescript/announcing-typescript-5-7/",
+      reference: REFERENCE_2,
     });
 }
