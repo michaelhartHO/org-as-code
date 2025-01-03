@@ -27,3 +27,10 @@ Deno.test("Registrar registrarFactory ok", () => {
   const registrar = registrarFactoryFn();
   assertInstanceOf(registrar, Registrar);
 });
+
+Deno.test("Registrar addPerson ok", () => {
+  const registrar = new Registrar(() => {});
+  registrar
+    .on("13-07-2022")
+    .addPerson({ tag: "tag", name: "name", skills: [["skill", 5]] });
+});

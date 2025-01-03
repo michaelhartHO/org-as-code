@@ -14,6 +14,12 @@ export interface RegistryData {
 
 export interface Skill extends RegistryData {
   description: string;
+  reference?: string;
+}
+
+export interface Person extends RegistryData {
+  name: string;
+  skills: [string, number][];
 }
 
 export type EventsMap = Map<EventTag, RegistryData>;
@@ -21,4 +27,5 @@ export type EventsMap = Map<EventTag, RegistryData>;
 export interface RegistrarInterface {
   on(date: LibDate | Date | string): this;
   addSkill(skill: Skill): this;
+  addPerson(person: Person): this;
 }

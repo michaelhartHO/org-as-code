@@ -1,6 +1,6 @@
 // registrar.ts registers the events declared in a data-point function with the time series database.
 
-import { Events, RegistrarInterface, RegistryData, Skill } from "./types.ts";
+import { Events, Person, RegistrarInterface, RegistryData, Skill } from "./types.ts";
 import { DbInsertFn } from "./timeSeriesDb.ts";
 import { LibDate } from "./libDate.ts";
 
@@ -21,6 +21,12 @@ export class Registrar implements RegistrarInterface {
   addSkill(skill: Skill): this {
     this.validate();
     this.insert(Events.Skill, skill);
+    return this;
+  }
+
+  addPerson(person: Person): this {
+    this.validate();
+    this.insert(Events.Person, person);
     return this;
   }
 
