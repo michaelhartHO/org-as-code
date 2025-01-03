@@ -61,3 +61,12 @@ export class TimeSeriesDb {
     return eventsDb;
   }
 }
+
+
+export type DbInsertFn = (date: LibDate, event: Events, data: RegistryData) => void;
+
+export function createDbInsertFn(db: TimeSeriesDb): DbInsertFn {
+  return (date: LibDate, event: Events, data: RegistryData) => {
+    db.insert(date, event, data);
+  };
+}

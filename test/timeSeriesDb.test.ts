@@ -1,5 +1,9 @@
 import { assertEquals, assertInstanceOf } from "jsr:@std/assert";
-import { TimeSeriesDb } from "../src/timeSeriesDb.ts";
+import {
+  createDbInsertFn,
+  DbInsertFn,
+  TimeSeriesDb,
+} from "../src/timeSeriesDb.ts";
 import { Events } from "../src/types.ts";
 import { LibDate } from "../src/libDate.ts";
 
@@ -63,4 +67,12 @@ Deno.test("getEventsDb ok", () => {
     peopleEventsDb.get("Kalvernard Tombolomblin")!.tag,
     "Kalvernard Tombolomblin",
   );
+});
+
+Deno.test("createDbInsertFn creates DbInsertFn ok", () => {
+  const db = new TimeSeriesDb();
+  const dbInsertFn = createDbInsertFn(db);
+  assertInstanceOf(dbInsertFn, Function);
+  dbInsertFn(new LibDate(), Events.Skill, { tag: "Wizard Lvl 9" });
+  assertEquals(db.size(), 1);
 });

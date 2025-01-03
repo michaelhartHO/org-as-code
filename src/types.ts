@@ -1,4 +1,6 @@
-// Calling the registry elements "Events" for want of a better collective noun
+import { LibDate } from "./libDate.ts";
+
+// Events represent the category of time series data that can be stored.
 export enum Events {
   Skill = "skill",
   Person = "person",
@@ -11,6 +13,12 @@ export interface RegistryData {
 }
 
 export interface Skill extends RegistryData {
+  description: string;
 }
 
 export type EventsMap = Map<EventTag, RegistryData>;
+
+export interface RegistrarInterface {
+  on(date: LibDate | Date | string): this;
+  addSkill(skill: Skill): this;
+}
