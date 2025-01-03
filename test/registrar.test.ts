@@ -34,3 +34,10 @@ Deno.test("Registrar addPerson ok", () => {
     .on("13-07-2022")
     .addPerson({ tag: "tag", name: "name", skills: [["skill", 5]] });
 });
+
+Deno.test("Registrar addTeam ok", () => {
+  const registrar = new Registrar(() => {});
+  registrar
+    .on("2022-11-10")
+    .addTeam({ tag: "tag", name: "name", lead: "lead", services: ["service"] });
+});

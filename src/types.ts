@@ -22,10 +22,17 @@ export interface Person extends RegistryData {
   skills: [string, number][];
 }
 
+export interface Team extends RegistryData {
+  name: string;
+  lead: string;
+  services: string[];
+}
+
 export type EventsMap = Map<EventTag, RegistryData>;
 
 export interface RegistrarInterface {
   on(date: LibDate | Date | string): this;
   addSkill(skill: Skill): this;
   addPerson(person: Person): this;
+  addTeam(team: Team): this;
 }
