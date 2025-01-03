@@ -4,8 +4,10 @@ export class LibDate {
   private _date: Date;
 
   // constructor accepts either a Date object or a string date in a format accepted by Date.parse
-  constructor(date?: Date | string) {
-    if (typeof date === "string") {
+  constructor(date?: Date | string | LibDate) {
+    if (date instanceof LibDate) {
+      this._date = date._date;
+    } else if (typeof date === "string") {
       this._date = LibDate.startOfDay(new Date(date));
     } else if (date instanceof Date) {
       this._date = LibDate.startOfDay(date);
