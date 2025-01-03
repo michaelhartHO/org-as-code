@@ -1,5 +1,5 @@
 import { assertInstanceOf, assertThrows } from "jsr:@std/assert";
-import { Registrar } from "../src/registrar.ts";
+import { Registrar, registrarFactory } from "../src/registrar.ts";
 
 Deno.test("Registrar initialisation ok", () => {
   const registrar = new Registrar(() => {});
@@ -20,4 +20,10 @@ Deno.test("Registrar addSkill throws if on not called", () => {
     Error,
     `No data point date set. Call "on()" first.`,
   );
+});
+
+Deno.test("Registrar registrarFactory ok", () => {
+  const registrarFactoryFn = registrarFactory(() => {});
+  const registrar = registrarFactoryFn();
+  assertInstanceOf(registrar, Registrar);
 });

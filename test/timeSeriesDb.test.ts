@@ -1,9 +1,5 @@
 import { assertEquals, assertInstanceOf } from "jsr:@std/assert";
-import {
-  createDbInsertFn,
-  DbInsertFn,
-  TimeSeriesDb,
-} from "../src/timeSeriesDb.ts";
+import { createDbInsertFn, TimeSeriesDb } from "../src/timeSeriesDb.ts";
 import { Events } from "../src/types.ts";
 import { LibDate } from "../src/libDate.ts";
 

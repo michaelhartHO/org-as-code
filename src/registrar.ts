@@ -38,3 +38,7 @@ export class Registrar implements RegistrarInterface {
     }
   }
 }
+
+export function registrarFactory(dbInsertFn: DbInsertFn) {
+  return () => new Registrar(dbInsertFn);
+}
