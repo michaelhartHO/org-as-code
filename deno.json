@@ -2,7 +2,9 @@
     "tasks": {
       "dev": "deno run --watch --allow-read --allow-env --allow-net main.ts",
       "test": "deno test --allow-read --allow-env --allow-net --watch",
-      "unit": "deno test --allow-read --allow-env --allow-net --watch test/unit"
+      "unit": "deno test --allow-read --allow-env --allow-net --watch test/unit",
+      "functional": "deno test --allow-all test/functional",
+      "integration": "deno test --allow-all test/integration"
     }
   }
   
