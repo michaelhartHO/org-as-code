@@ -1,34 +1,52 @@
 import { LibDate } from "./libDate.ts";
 
 // Events represent the category of time series data that can be stored.
-export enum Events {
+export enum EventType {
   Skill = "skill",
   Person = "person",
   Team = "team",
 }
 
 export type EventTag = string;
-export interface RegistryData {
+
+export type EventsMap = Map<EventTag, RegistryData>;
+
+export interface EventBase {
   tag: EventTag;
 }
 
-export interface Skill extends RegistryData {
+// The Skill, Person, and Team interfaces represent the data that Users will provide as data-points
+export interface Skill extends EventBase {
   description: string;
   reference: string;
 }
-
-export interface Person extends RegistryData {
+export interface Person extends EventBase {
   name: string;
   skills: [string, number][];
 }
-
-export interface Team extends RegistryData {
+export interface Team extends EventBase {
   name: string;
   lead: string;
   services: string[];
 }
+export interface RegistryBase extends EventBase {
+  type: EventType;
+}
 
-export type EventsMap = Map<EventTag, RegistryData>;
+// The SkillEvent, PersonEvent, and TeamEvent interfaces represent the data structures (built from data-points) that will be stored in the registry
+export interface SkillEvent extends RegistryBase, Skill {
+  type: EventType.Skill;
+}
+
+export interface PersonEvent extends RegistryBase, Person {
+  type: EventType.Person;
+}
+
+export interface TeamEvent extends RegistryBase, Team {
+  type: EventType.Team;
+}
+
+export type RegistryData = SkillEvent | PersonEvent | TeamEvent;
 
 export interface RegistrarInterface {
   on(date: LibDate | Date | string): this;

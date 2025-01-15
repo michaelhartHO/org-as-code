@@ -2,6 +2,7 @@ import { assertSpyCallArgs, assertSpyCalls, spy } from "jsr:@std/testing/mock";
 import { Registrar } from "../../src/registrar.ts";
 import { registerDataPoints } from "../../src/registerDataPoints.ts";
 import { LibDate } from "../../src/libDate.ts";
+import { EventType } from "../../src/types.ts";
 import * as johnSmith from "./data-points/01/001-john.smith.ts";
 import * as teams from "./data-points/02/000-teams.ts";
 
@@ -17,6 +18,7 @@ Deno.test("data-points Person 001-john.smith", async () => {
     "person",
     {
       tag: "john.smith",
+      type: EventType.Person,
       name: "John Smith",
       skills: [["java11", 5]],
     },
@@ -34,6 +36,7 @@ Deno.test("data-points Teams 000-teams", async () => {
     "team",
     {
       tag: "team",
+      type: EventType.Team,
       name: "Team",
       lead: "Lead",
       services: ["Service"],

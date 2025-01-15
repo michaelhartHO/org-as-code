@@ -1,6 +1,16 @@
 // registrar.ts registers the events declared in a data-point function with the time series database.
 
-import { Events, Person, RegistrarInterface, RegistryData, Skill, Team } from "./types.ts";
+import {
+  EventType,
+  Person,
+  PersonEvent,
+  RegistrarInterface,
+  RegistryData,
+  Skill,
+  SkillEvent,
+  Team,
+  TeamEvent,
+} from "./types.ts";
 import { DbInsertFn } from "./timeSeriesDb.ts";
 import { LibDate } from "./libDate.ts";
 
@@ -20,25 +30,47 @@ export class Registrar implements RegistrarInterface {
 
   addSkill(skill: Skill): this {
     this.validate();
-    this.insert(Events.Skill, skill);
+    this.insert(this.createSkill(skill));
     return this;
+  }
+
+  createSkill(data: Skill): SkillEvent {
+    return {
+        ...data,
+        type: EventType.Skill
+    };
   }
 
   addPerson(person: Person): this {
     this.validate();
-    this.insert(Events.Person, person);
+    this.insert(this.createPerson(person));
     return this;
+  }
+
+  createPerson(data: Person): PersonEvent {
+    return {
+        ...data,
+        type: EventType.Person
+    };
   }
 
   addTeam(team: Team): this {
     this.validate();
-    this.insert(Events.Team, team);
+    this.insert(this.createTeam(team));
     return this;
   }
-  
-  private insert(event: Events, data: RegistryData) {
+
+  createTeam(data: Team): TeamEvent {
+    return {
+        ...data,
+        type: EventType.Team
+    };
+  }
+
+
+  private insert(data: RegistryData) {
     if (this._dataPointDate) {
-      this.dbInsertFn(this._dataPointDate, event, data);
+      this.dbInsertFn(this._dataPointDate, data.type, data);
     } else {
       throw new Error(`No data point date set. Call "on()" first.`);
     }

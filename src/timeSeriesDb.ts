@@ -1,10 +1,10 @@
 // timeSeriesDb.ts a simple Time Series Database implementation
-import { Events, EventsMap, RegistryData } from "./types.ts";
+import { EventType, EventsMap, RegistryData } from "./types.ts";
 import { LibDate } from "./libDate.ts";
 import * as log from "jsr:@std/log";
 
 type TimeSeriesData = {
-  type: Events;
+  type: EventType;
   data: RegistryData;
 };
 
@@ -19,7 +19,7 @@ export class TimeSeriesDb {
     this._db = new Map();
   }
 
-  insert(date: LibDate, event: Events, data: RegistryData) {
+  insert(date: LibDate, event: EventType, data: RegistryData) {
     if (!this._db.has(date)) {
       this._db.set(date, []);
     }
@@ -41,7 +41,7 @@ export class TimeSeriesDb {
     );
   }
 
-  getEventsDb(type: Events): EventsMap {
+  getEventsDb(type: EventType): EventsMap {
     if (!this._sorted) {
       this.sort();
     }
@@ -63,10 +63,10 @@ export class TimeSeriesDb {
 }
 
 
-export type DbInsertFn = (date: LibDate, event: Events, data: RegistryData) => void;
+export type DbInsertFn = (date: LibDate, event: EventType, data: RegistryData) => void;
 
 export function createDbInsertFn(db: TimeSeriesDb): DbInsertFn {
-  return (date: LibDate, event: Events, data: RegistryData) => {
+  return (date: LibDate, event: EventType, data: RegistryData) => {
     db.insert(date, event, data);
   };
 }

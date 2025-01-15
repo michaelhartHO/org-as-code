@@ -24,10 +24,12 @@ Deno.test("registerDataPoints ok", async () => {
     tag: TAG_1,
     description: DESCRIPTION_1,
     reference: REFERENCE_1,
+    type: "skill",
   }]);
   assertSpyCallArgs(dbInsertFn, 1, [new LibDate(ON_DATE_01_01_2025), "skill", {
     tag: TAG_2,
     description: DESCRIPTION_2,
     reference: REFERENCE_2,
+    type: "skill",
   }]);
 });
