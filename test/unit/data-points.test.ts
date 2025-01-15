@@ -1,11 +1,11 @@
 import { assertSpyCallArgs, assertSpyCalls, spy } from "jsr:@std/testing/mock";
-import { Registrar } from "../src/registrar.ts";
-import { registerDataPoints } from "../src/registerDataPoints.ts";
-import { LibDate } from "../src/libDate.ts";
+import { Registrar } from "../../src/registrar.ts";
+import { registerDataPoints } from "../../src/registerDataPoints.ts";
+import { LibDate } from "../../src/libDate.ts";
 import * as johnSmith from "./data-points/01/001-john.smith.ts";
 import * as teams from "./data-points/02/000-teams.ts";
 
-const dataPointsPath = "./test/data-points";
+const dataPointsPath = "./test/unit/data-points";
 
 Deno.test("data-points Person 001-john.smith", async () => {
   const dbInsertFn = spy();

@@ -1,5 +1,5 @@
 // 001-john.smith.ts
-import { RegistrarInterface } from "../../../src/types.ts";
+import { RegistrarInterface } from "../../../../src/types.ts";
 
 // Used in tests
 export const ON_DATE_12_11_2021 = "12 Nov 2021";

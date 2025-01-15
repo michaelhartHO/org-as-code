@@ -1,5 +1,5 @@
 import { assertInstanceOf, assertThrows } from "jsr:@std/assert";
-import { Registrar, registrarFactory } from "../src/registrar.ts";
+import { Registrar, registrarFactory } from "../../src/registrar.ts";
 
 Deno.test("Registrar initialisation ok", () => {
   const registrar = new Registrar(() => {});

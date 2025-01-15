@@ -1,7 +1,7 @@
 import { assertEquals, assertInstanceOf } from "jsr:@std/assert";
-import { createDbInsertFn, TimeSeriesDb } from "../src/timeSeriesDb.ts";
-import { Events } from "../src/types.ts";
-import { LibDate } from "../src/libDate.ts";
+import { createDbInsertFn, TimeSeriesDb } from "../../src/timeSeriesDb.ts";
+import { Events } from "../../src/types.ts";
+import { LibDate } from "../../src/libDate.ts";
 
 Deno.test("TimeSeriesDb initialisation ok", () => {
   const db = new TimeSeriesDb();

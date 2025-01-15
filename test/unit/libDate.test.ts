@@ -1,5 +1,5 @@
 import { assertEquals, assertInstanceOf } from "jsr:@std/assert";
-import { LibDate } from "../src/libDate.ts";
+import { LibDate } from "../../src/libDate.ts";
 
 Deno.test("LibDate initialisation ok", () => {
   const libDate = new LibDate();

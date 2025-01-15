@@ -16,12 +16,22 @@
       "attachSimplePort": 9229
     },
     {
-      "name": "Debug Tests",
+      "name": "Debug a Test",
       "type": "node",
       "request": "launch",
       "program": "${file}",
       "runtimeExecutable": "deno",
       "runtimeArgs": ["test", "--inspect-brk", "--allow-all"],
+      "attachSimplePort": 9229,
+      "outputCapture": "std"
+    },
+    {
+      "name": "Debug Server",
+      "type": "node",
+      "request": "launch",
+      "program": "${file}",
+      "runtimeExecutable": "deno",
+      "runtimeArgs": ["run", "--inspect-brk", "--allow-all"],
       "attachSimplePort": 9229,
       "outputCapture": "std"
     }
