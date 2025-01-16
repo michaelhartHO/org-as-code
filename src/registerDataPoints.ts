@@ -1,16 +1,19 @@
-// registerDataPoints.ts consumes the data-points found in the data-points directory. Each file is processed through a Registrar and inserted into the Time Series database.
+// registerDataPoints.ts consumes the data-points found in the data-points directory.
+// Each file is processed through a Registrar and inserted into the database.
 
-import { RegistrarInterface } from "./types.ts";
+import { RegistrarFactory } from "./registrar.ts";
 
 export async function registerDataPoints(
-  registrarFactory: () => RegistrarInterface,
+  registrarFactory: RegistrarFactory,
   dataPointsPath: string,
 ) {
   let resolvedPath: string;
   try {
     resolvedPath = Deno.realPathSync(dataPointsPath);
   } catch (_error) {
-    throw new Error(`data-points directory not found: ${dataPointsPath}\n` + _error );
+    throw new Error(
+      `data-points directory not found: ${dataPointsPath}\n` + _error,
+    );
   }
 
   const dataPointsDir = Deno.readDirSync(resolvedPath);

@@ -1,6 +1,6 @@
 import { assert, assertEquals } from "jsr:@std/assert";
 import { seedDatabaseFromPaths } from "../../src/seed.ts";
-import { createDbInsertFn, TimeSeriesDb } from "../../src/timeSeriesDb.ts";
+import { createDbInsertRegistryDataFn, TimeSeriesDb } from "../../src/timeSeriesDb.ts";
 import { EventType } from "../../src/types.ts";
 
 Deno.test("assert works correctly", () => {
@@ -10,7 +10,7 @@ Deno.test("assert works correctly", () => {
 
 Deno.test("seedDatabaseFromPaths ok", async () => {
   const db = new TimeSeriesDb();
-  const dbInsertFn = createDbInsertFn(db);
+  const dbInsertFn = createDbInsertRegistryDataFn(db);
 
   const paths = ["./sas-data/skills", "./sas-data/teams", "./sas-data/people"];
   await seedDatabaseFromPaths(dbInsertFn, paths);

@@ -63,13 +63,13 @@ export class TimeSeriesDb {
 }
 
 // The DbInsertFn is the interface used by db clients to insert Registry data into the db
-export type DbInsertFn = (
+export type DbInsertRegistryDataFn = (
   date: LibDate,
   event: EventType,
   data: RegistryData,
 ) => void;
 
-export function createDbInsertFn(db: TimeSeriesDb): DbInsertFn {
+export function createDbInsertRegistryDataFn(db: TimeSeriesDb): DbInsertRegistryDataFn {
   return (date: LibDate, type: EventType, data: RegistryData) => {
     db.insert(date, { type, data });
   };

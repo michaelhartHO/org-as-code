@@ -1,5 +1,5 @@
 import { assertEquals, assertInstanceOf } from "jsr:@std/assert";
-import { createDbInsertFn, TimeSeriesDb } from "../../src/timeSeriesDb.ts";
+import { createDbInsertRegistryDataFn, TimeSeriesDb } from "../../src/timeSeriesDb.ts";
 import { EventType } from "../../src/types.ts";
 import { LibDate } from "../../src/libDate.ts";
 
@@ -153,9 +153,9 @@ Deno.test("getEventsDb ok", () => {
   );
 });
 
-Deno.test("createDbInsertFn creates DbInsertFn ok", () => {
+Deno.test("createDbInsertRegistryDataFn creates insert function ok", () => {
   const db = new TimeSeriesDb();
-  const dbInsertFn = createDbInsertFn(db);
+  const dbInsertFn = createDbInsertRegistryDataFn(db);
   assertInstanceOf(dbInsertFn, Function);
   dbInsertFn(new LibDate(), EventType.Skill, {
     tag: "Wizard Lvl 9",

@@ -11,14 +11,14 @@ import {
   Team,
   TeamEvent,
 } from "./types.ts";
-import { DbInsertFn } from "./timeSeriesDb.ts";
+import { DbInsertRegistryDataFn } from "./timeSeriesDb.ts";
 import { LibDate } from "./libDate.ts";
 
 export class Registrar implements RegistrarInterface {
-  private dbInsertFn: DbInsertFn;
+  private dbInsertFn: DbInsertRegistryDataFn;
   private _dataPointDate: LibDate | null = null;
 
-  constructor(dbInsertFn: DbInsertFn) {
+  constructor(dbInsertFn: DbInsertRegistryDataFn) {
     this.dbInsertFn = dbInsertFn;
   }
 
@@ -36,8 +36,8 @@ export class Registrar implements RegistrarInterface {
 
   createSkill(data: Skill): SkillEvent {
     return {
-        ...data,
-        type: EventType.Skill
+      ...data,
+      type: EventType.Skill,
     };
   }
 
@@ -49,8 +49,8 @@ export class Registrar implements RegistrarInterface {
 
   createPerson(data: Person): PersonEvent {
     return {
-        ...data,
-        type: EventType.Person
+      ...data,
+      type: EventType.Person,
     };
   }
 
@@ -62,11 +62,10 @@ export class Registrar implements RegistrarInterface {
 
   createTeam(data: Team): TeamEvent {
     return {
-        ...data,
-        type: EventType.Team
+      ...data,
+      type: EventType.Team,
     };
   }
-
 
   private insert(data: RegistryData) {
     if (this._dataPointDate) {
@@ -83,6 +82,10 @@ export class Registrar implements RegistrarInterface {
   }
 }
 
-export function registrarFactory(dbInsertFn: DbInsertFn) {
+export type RegistrarFactory = () => RegistrarInterface;
+
+export function registrarFactory(
+  dbInsertFn: DbInsertRegistryDataFn,
+): () => RegistrarInterface {
   return () => new Registrar(dbInsertFn);
 }
