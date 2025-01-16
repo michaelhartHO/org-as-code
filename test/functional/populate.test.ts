@@ -1,5 +1,5 @@
 import { assert, assertEquals } from "jsr:@std/assert";
-import { seedDatabaseFromPaths } from "../../src/seed.ts";
+import { populateDatabaseFromPaths } from "../../src/populate.ts";
 import {
   createDbInsertRegistryDataFn,
   TimeSeriesDb,
@@ -23,7 +23,7 @@ function assertHasKeys(obj: unknown, keys: string[]) {
   });
 }
 
-Deno.test("seedDatabaseFromPaths ok", async () => {
+Deno.test("populateDatabaseFromPaths ok", async () => {
   const db = new TimeSeriesDb();
   const dbInsertFn = createDbInsertRegistryDataFn(db);
 
@@ -40,7 +40,7 @@ Deno.test("seedDatabaseFromPaths ok", async () => {
     `${dataPointsPath}/teams`,
     `${dataPointsPath}/people`,
   ];
-  await seedDatabaseFromPaths(dbInsertFn, paths);
+  await populateDatabaseFromPaths(dbInsertFn, paths);
 
   const skillsDb = db.getEventsDb(EventType.Skill);
   LOG_EVENTS_DB && console.log(skillsDb);

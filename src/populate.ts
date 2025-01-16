@@ -1,4 +1,4 @@
-// seed.ts seeds the database with the data points
+// populate.ts populates the database with the data-points
 
 import {
   DbInsertRegistryDataFn,
@@ -9,7 +9,7 @@ import { registerDataPoints } from "./registerDataPoints.ts";
 
 export const db = new TimeSeriesDb();
 
-export async function seedDatabaseFromPaths(
+export async function populateDatabaseFromPaths(
   dbInsertFn: DbInsertRegistryDataFn,
   paths: string[],
 ) {
