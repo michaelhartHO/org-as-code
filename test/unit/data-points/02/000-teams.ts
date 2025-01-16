@@ -1,4 +1,4 @@
-import { RegistrarInterface } from "../../../../src/types.ts";
+import {RegistrarInterface} from "../../../../src/registrar.ts";
 
 export const ON_DATE_01_01_2021 = "01-01-2021";
 

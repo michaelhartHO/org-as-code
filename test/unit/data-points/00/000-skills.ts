@@ -1,5 +1,6 @@
 // 000-skills.ts is a data-point file that registers two skills.
-import { RegistrarInterface } from "../../../../src/types.ts";
+
+import {RegistrarInterface} from "../../../../src/registrar.ts";
 
 // Used in tests
 export const ON_DATE_1_JAN_2021 = "1 Jan 2021";

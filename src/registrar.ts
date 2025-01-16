@@ -4,7 +4,6 @@ import {
   EventType,
   Person,
   PersonEvent,
-  RegistrarInterface,
   RegistryData,
   Skill,
   SkillEvent,
@@ -13,6 +12,13 @@ import {
 } from "./types.ts";
 import { DbInsertRegistryDataFn } from "./timeSeriesDb.ts";
 import { LibDate } from "./libDate.ts";
+
+export interface RegistrarInterface {
+  on(date: LibDate | Date | string): this;
+  addSkill(skill: Skill): this;
+  addPerson(person: Person): this;
+  addTeam(team: Team): this;
+}
 
 export class Registrar implements RegistrarInterface {
   private dbInsertFn: DbInsertRegistryDataFn;

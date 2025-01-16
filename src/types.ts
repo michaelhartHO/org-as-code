@@ -1,5 +1,3 @@
-import { LibDate } from "./libDate.ts";
-
 // EventType is the category of data-point that can be stored.
 export enum EventType {
   Skill = "skill",
@@ -47,10 +45,3 @@ export interface TeamEvent extends RegistryBase, Team {
 }
 
 export type RegistryData = SkillEvent | PersonEvent | TeamEvent;
-
-export interface RegistrarInterface {
-  on(date: LibDate | Date | string): this;
-  addSkill(skill: Skill): this;
-  addPerson(person: Person): this;
-  addTeam(team: Team): this;
-}
