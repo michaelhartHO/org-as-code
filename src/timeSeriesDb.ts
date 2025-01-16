@@ -1,5 +1,5 @@
 // timeSeriesDb.ts a simple Time Series Database implementation
-import { EventType, EventsMap, RegistryData } from "./types.ts";
+import { EventsMap, EventType, RegistryData } from "./types.ts";
 import { LibDate } from "./libDate.ts";
 import * as log from "jsr:@std/log";
 
@@ -19,11 +19,11 @@ export class TimeSeriesDb {
     this._db = new Map();
   }
 
-  insert(date: LibDate, event: EventType, data: RegistryData) {
+  insert(date: LibDate, data: TimeSeriesData) {
     if (!this._db.has(date)) {
       this._db.set(date, []);
     }
-    this._db.get(date)!.push({ type: event, data: data });
+    this._db.get(date)!.push(data);
     this._sorted = false;
   }
 
@@ -62,11 +62,15 @@ export class TimeSeriesDb {
   }
 }
 
-
-export type DbInsertFn = (date: LibDate, event: EventType, data: RegistryData) => void;
+// The DbInsertFn is the interface used by db clients to insert Registry data into the db
+export type DbInsertFn = (
+  date: LibDate,
+  event: EventType,
+  data: RegistryData,
+) => void;
 
 export function createDbInsertFn(db: TimeSeriesDb): DbInsertFn {
-  return (date: LibDate, event: EventType, data: RegistryData) => {
-    db.insert(date, event, data);
+  return (date: LibDate, type: EventType, data: RegistryData) => {
+    db.insert(date, { type, data });
   };
 }

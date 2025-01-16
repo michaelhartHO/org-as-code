@@ -11,11 +11,14 @@ Deno.test("TimeSeriesDb initialisation ok", () => {
 Deno.test("insert 1 event ok", () => {
   const timeSeriesDb = new TimeSeriesDb();
   const date = new LibDate();
-  timeSeriesDb.insert(date, EventType.Skill, {
-    tag: "Wizard Lvl 9",
+  timeSeriesDb.insert(date, {
     type: EventType.Skill,
-    description: "A powerful wizard",
-    reference: "Gandalf",
+    data: {
+      tag: "Wizard Lvl 9",
+      type: EventType.Skill,
+      description: "A powerful wizard",
+      reference: "Gandalf",
+    },
   });
 
   assertEquals(timeSeriesDb.size(), 1);
@@ -24,17 +27,23 @@ Deno.test("insert 1 event ok", () => {
 Deno.test("insert 2 events 1 date ok", () => {
   const timeSeriesDb = new TimeSeriesDb();
   const date = new LibDate();
-  timeSeriesDb.insert(date, EventType.Skill, {
-    tag: "Wizard Lvl 9",
+  timeSeriesDb.insert(date, {
     type: EventType.Skill,
-    description: "A powerful wizard",
-    reference: "Gandalf",
+    data: {
+      tag: "Wizard Lvl 9",
+      type: EventType.Skill,
+      description: "A powerful wizard",
+      reference: "Gandalf",
+    },
   });
-  timeSeriesDb.insert(date, EventType.Skill, {
-    tag: "Poet Lvl 6",
+  timeSeriesDb.insert(date, {
     type: EventType.Skill,
-    description: "A famous poet",
-    reference: "Homer",
+    data: {
+      tag: "Poet Lvl 6",
+      type: EventType.Skill,
+      description: "A famous poet",
+      reference: "Homer",
+    },
   });
 
   assertEquals(timeSeriesDb.size(), 2);
@@ -44,23 +53,32 @@ Deno.test("insert 3 events 2 dates ok", () => {
   const timeSeriesDb = new TimeSeriesDb();
   const date1 = new LibDate();
   const date2 = new LibDate("2021-01-01");
-  timeSeriesDb.insert(date1, EventType.Skill, {
-    tag: "Wizard Lvl 9",
+  timeSeriesDb.insert(date1, {
     type: EventType.Skill,
-    description: "A powerful wizard",
-    reference: "Gandalf",
+    data: {
+      tag: "Wizard Lvl 9",
+      type: EventType.Skill,
+      description: "A powerful wizard",
+      reference: "Gandalf",
+    },
   });
-  timeSeriesDb.insert(date1, EventType.Skill, {
-    tag: "Poet Lvl 6",
+  timeSeriesDb.insert(date1, {
     type: EventType.Skill,
-    description: "A famous poet",
-    reference: "Homer",
+    data: {
+      tag: "Poet Lvl 6",
+      type: EventType.Skill,
+      description: "A famous poet",
+      reference: "Homer",
+    },
   });
-  timeSeriesDb.insert(date2, EventType.Skill, {
-    tag: "Pilot Lvl 2",
+  timeSeriesDb.insert(date2, {
     type: EventType.Skill,
-    description: "A skilled pilot",
-    reference: "Amelia",
+    data: {
+      tag: "Pilot Lvl 2",
+      type: EventType.Skill,
+      description: "A skilled pilot",
+      reference: "Amelia",
+    },
   });
 
   assertEquals(timeSeriesDb.size(), 3);
@@ -70,36 +88,51 @@ Deno.test("getEventsDb ok", () => {
   const timeSeriesDb = new TimeSeriesDb();
   const date1 = new LibDate();
   const date2 = new LibDate("2021-01-01");
-  timeSeriesDb.insert(date1, EventType.Skill, {
-    tag: "Wizard Lvl 9",
+  timeSeriesDb.insert(date1, {
     type: EventType.Skill,
-    description: "A powerful wizard",
-    reference: "Gandalf",
+    data: {
+      tag: "Wizard Lvl 9",
+      type: EventType.Skill,
+      description: "A powerful wizard",
+      reference: "Gandalf",
+    },
   });
-  timeSeriesDb.insert(date1, EventType.Skill, {
-    tag: "Poet Lvl 6",
+  timeSeriesDb.insert(date1, {
     type: EventType.Skill,
-    description: "A famous poet",
-    reference: "Homer",
+    data: {
+      tag: "Poet Lvl 6",
+      type: EventType.Skill,
+      description: "A famous poet",
+      reference: "Homer",
+    },
   });
-  timeSeriesDb.insert(date2, EventType.Skill, {
-    tag: "Pilot Lvl 2",
+  timeSeriesDb.insert(date2, {
     type: EventType.Skill,
-    description: "A skilled pilot",
-    reference: "Amelia",
+    data: {
+      tag: "Pilot Lvl 2",
+      type: EventType.Skill,
+      description: "A skilled pilot",
+      reference: "Amelia",
+    },
   });
 
-  timeSeriesDb.insert(date1, EventType.Person, {
-    tag: "Haryward Belinquins",
+  timeSeriesDb.insert(date1, {
     type: EventType.Person,
-    name: "Haryward",
-    skills: [["Magic", 9]],
+    data: {
+      tag: "Haryward Belinquins",
+      type: EventType.Person,
+      name: "Haryward",
+      skills: [["Magic", 9]],
+    },
   });
-  timeSeriesDb.insert(date2, EventType.Person, {
-    tag: "Kalvernard Tombolomblin",
+  timeSeriesDb.insert(date2, {
     type: EventType.Person,
-    name: "Kalvernard",
-    skills: [["Poetry", 6]],
+    data: {
+      tag: "Kalvernard Tombolomblin",
+      type: EventType.Person,
+      name: "Kalvernard",
+      skills: [["Poetry", 6]],
+    },
   });
 
   const skillsEventsDb = timeSeriesDb.getEventsDb(EventType.Skill);

@@ -1,6 +1,6 @@
 import { LibDate } from "./libDate.ts";
 
-// Events represent the category of time series data that can be stored.
+// EventType is the category of data-point that can be stored.
 export enum EventType {
   Skill = "skill",
   Person = "person",
