@@ -8,17 +8,20 @@ import {
   DESCRIPTION_2,
   ON_DATE_01_01_2025,
   ON_DATE_1_JAN_2021,
-  TAG_1,
-  TAG_2,
   REFERENCE_1,
   REFERENCE_2,
+  TAG_1,
+  TAG_2,
 } from "./data-points/00/000-skills.ts";
 
 const dataPointsPath = "./test/unit/data-points";
 
 Deno.test("registerDataPoints inserts data-points ok", async () => {
   const dbInsertFn = spy();
-  await registerDataPoints(registrarFactory(dbInsertFn), dataPointsPath + "/00");
+  await registerDataPoints(
+    registrarFactory(dbInsertFn),
+    dataPointsPath + "/00",
+  );
   assertSpyCalls(dbInsertFn, 2);
   assertSpyCallArgs(dbInsertFn, 0, [new LibDate(ON_DATE_1_JAN_2021), "skill", {
     tag: TAG_1,
@@ -36,7 +39,14 @@ Deno.test("registerDataPoints inserts data-points ok", async () => {
 
 Deno.test("registerDataPoints throws when directory not found", async () => {
   const dbInsertFn = spy();
-  await assertRejects(async () => {
-    await registerDataPoints(registrarFactory(dbInsertFn), "./non-existent-directory");
-  }, Error, "data-points directory not found: ./non-existent-directory");
+  await assertRejects(
+    async () => {
+      await registerDataPoints(
+        registrarFactory(dbInsertFn),
+        "./non-existent-directory",
+      );
+    },
+    Error,
+    "data-points directory not found: ./non-existent-directory",
+  );
 });
