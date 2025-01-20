@@ -1,8 +1,8 @@
 // router.ts Provides an http server route handler for Deno.serve
-//
 
 // Clients define their routes and handlers with Route.
-// The Request handler callback returns a string or object that will be serialized to JSON in the Response
+// The Request handler callback returns a string or object that will be 
+// serialized to JSON in the Response
 export type Route = [
   URLPattern | string,
   (request: Request) => string | object,
