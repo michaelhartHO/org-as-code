@@ -8,7 +8,7 @@ export function register(registrar: RegistrarInterface) {
     .addTeam({
         tag: "intel-tech",
         name: "Intelligence Technology",
-        lead: "graeme.sutherland1", 
+        lead: "luthimer.bressimier2", 
         services: ["Service A", "Service B"],
     });
 }
