@@ -8,7 +8,7 @@ import { EventType } from "./src/types.ts";
 
 const dataPointsRelativePath = "./sas-data";
 const PORT = parseInt(Deno.env.get('SERVER_PORT') || '8000', 10);
-const LOG_EVENTS_DB = true;
+const LOG_EVENTS_DB = Deno.env.get("LOG_EVENTS_DB") === "true";
 
 const db = new TimeSeriesDb();
 const dbInsertFn = createDbInsertRegistryDataFn(db);
