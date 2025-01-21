@@ -1,37 +1,9 @@
 import { assertEquals, assertStringIncludes } from "jsr:@std/assert";
 import { Router } from "../../router.ts";
+import { getRandomFreePort, getRandomString } from "../helpers.ts";
 
 const PORT_LO = 50000;
 const PORT_HI = 51000;
-
-// Create a temporary listener (server) to check if a port is in use
-async function isPortInUse(port: number): Promise<boolean> {
-  try {
-    const listener = Deno.listen({ port });
-    listener.close();
-    return false;
-  } catch (error) {
-    if (error instanceof Deno.errors.AddrInUse) {
-      return true;
-    }
-    throw error;
-  }
-}
-
-async function getRandomFreePort(low: number, high: number): Promise<number> {
-  const getRandomPort = () => Math.floor(Math.random() * (high - low + 1)) + low;
-
-  let port: number;
-  let isFree: boolean;
-
-  do {
-    port = getRandomPort();
-    isFree = await isPortInUse(port);
-  } while (isFree);
-
-  return port;
-}
-
 
 Deno.test("Server tear-down test", async (t) => {
   const createServer = (port: number, responseText: string) => {
@@ -86,7 +58,6 @@ const createRouterServer = (port: number, router: Router) => {
   return { server, controller };
 };
 
-const getRandomString = () => Math.random().toString(36).slice(2);
 
 Deno.test("Router GET two routes 200 ok", async (t) => {
   const rootMsg = `Hello Deno! ${getRandomString()}`;

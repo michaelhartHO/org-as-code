@@ -10,18 +10,9 @@ import {
   SkillEvent,
   TeamEvent,
 } from "../../src/types.ts";
+import { assertHasKeys } from "../helpers.ts";
 
 const LOG_EVENTS_DB = false;
-
-function assertHasKeys(obj: unknown, keys: string[]) {
-  assert(obj && typeof obj === "object", "Expected an object");
-  keys.forEach((key) => {
-    assert(
-      Object.hasOwn(obj, key),
-      `Expected object to have key "${key}"`,
-    );
-  });
-}
 
 Deno.test("populateDatabaseFromPaths ok", async () => {
   const db = new TimeSeriesDb();
