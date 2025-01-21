@@ -7,7 +7,7 @@ import { Router } from "./router.ts";
 import { EventType } from "./src/types.ts";
 
 const dataPointsRelativePath = "./sas-data";
-const PORT = 8000;
+const PORT = parseInt(Deno.env.get('SERVER_PORT') || '8000', 10);
 const LOG_EVENTS_DB = true;
 
 const db = new TimeSeriesDb();
