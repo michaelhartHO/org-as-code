@@ -1,0 +1,53 @@
+export const snapshot = {};
+
+snapshot[`populateDatabaseFromPaths ok 1`] = `
+Map(2) {
+  "Pachinko" => {
+    description: "Pachinko master",
+    reference: "https://en.wikipedia.org/wiki/pachinko?variant=zh-cn",
+    tag: "Pachinko",
+    type: "skill",
+  },
+  "Pokémon" => {
+    description: "Pokémon master",
+    reference: "https://www.pokemon.com",
+    tag: "Pokémon",
+    type: "skill",
+  },
+}
+`;
+
+snapshot[`populateDatabaseFromPaths ok 2`] = `
+Map(1) {
+  "Team Rocket" => {
+    lead: "keyser.söze",
+    name: "Launch Capabilities",
+    services: [
+      "Engines",
+      "Payload",
+    ],
+    tag: "Team Rocket",
+    type: "team",
+  },
+}
+`;
+
+snapshot[`populateDatabaseFromPaths ok 3`] = `
+Map(1) {
+  "keyser.söze" => {
+    name: "Keyser Söze",
+    skills: [
+      [
+        "Pachinko",
+        7,
+      ],
+      [
+        "Pokémon",
+        9,
+      ],
+    ],
+    tag: "keyser.söze",
+    type: "person",
+  },
+}
+`;
