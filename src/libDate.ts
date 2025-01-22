@@ -1,18 +1,26 @@
-// libDate.ts standardised date handling
+// libDate.ts standardised date handling.
+// LibDate produces a string based read-only date object that is
+// ISO8601 compatible and comparison friendly as the time is always
+// set to midnight.
+// The DateParser class is used to handle the UK date parsing issues
+
+import { DateParser } from "./dateParser.ts";
 
 export class LibDate {
-  private _date: Date;
+  private _date: string;
 
   // constructor accepts either a Date object or a string date in a format accepted by Date.parse
   constructor(date?: Date | string | LibDate) {
     if (date instanceof LibDate) {
       this._date = date._date;
     } else if (typeof date === "string") {
-      this._date = LibDate.startOfDay(new Date(date));
+      const parsed = DateParser.parse(date) ||
+        new Date().toISOString().slice(0, 10);
+      this._date = LibDate.startOfDay(new Date(parsed)).toISOString();
     } else if (date instanceof Date) {
-      this._date = LibDate.startOfDay(date);
+      this._date = LibDate.startOfDay(date).toISOString();
     } else {
-      this._date = LibDate.startOfDay(new Date());
+      this._date = LibDate.startOfDay(new Date()).toISOString();
     }
   }
 
@@ -23,11 +31,11 @@ export class LibDate {
   }
 
   public toISOString(): string {
-    return this._date.toISOString();
+    return this._date;
   }
 
   public getUnixTime(): number {
-    return this._date.getTime();
+    return new Date(this._date).getTime();
   }
 
   // Returns -1 if a < b, 0 if a == b, 1 if a > b
