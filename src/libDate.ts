@@ -2,12 +2,13 @@
 // LibDate produces a string based read-only date object that is
 // ISO8601 compatible and comparison friendly as the time is always
 // set to midnight.
-// The DateParser class is used to handle the UK date parsing issues
+// The DateParser class is used to handle the UK date parsing issues,
+// when dates are ambiguous UK format is assumed.
 
 import { DateParser } from "./dateParser.ts";
 
 export class LibDate {
-  private _date: string;
+  private _date: string;  // ISO8601 date string yyyy-mm-dd
 
   // constructor accepts either a Date object or a string date in a format accepted by Date.parse
   constructor(date?: Date | string | LibDate) {
@@ -16,30 +17,29 @@ export class LibDate {
     } else if (typeof date === "string") {
       const parsed = DateParser.parse(date) ||
         new Date().toISOString().slice(0, 10);
-      this._date = LibDate.startOfDay(new Date(parsed)).toISOString();
+      this._date = this._asISODateOnly(new Date(parsed));
     } else if (date instanceof Date) {
-      this._date = LibDate.startOfDay(date).toISOString();
+      this._date = this._asISODateOnly(date);
     } else {
-      this._date = LibDate.startOfDay(new Date()).toISOString();
+      // failed to parse date, default to today
+      this._date = this._asISODateOnly(new Date());
     }
   }
 
-  static startOfDay(date: Date): Date {
-    const startOfDay = new Date(date);
-    startOfDay.setHours(0, 0, 0, 0);
-    return startOfDay;
-  }
-
-  public toISOString(): string {
+  toISOString(): string {
     return this._date;
   }
 
-  public getUnixTime(): number {
+  getUnixTime(): number {
     return new Date(this._date).getTime();
   }
 
+  _asISODateOnly(date: Date): string {
+    return date.toISOString().slice(0, 10);
+  }
+
   // Returns -1 if a < b, 0 if a == b, 1 if a > b
-  public static compare(a: LibDate, b: LibDate): number {
+  static compare(a: LibDate, b: LibDate): number {
     const timeA = a.getUnixTime();
     const timeB = b.getUnixTime();
 
