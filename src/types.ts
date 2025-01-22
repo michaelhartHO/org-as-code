@@ -29,6 +29,7 @@ export interface Team extends EventBase {
 }
 export interface RegistryBase extends EventBase {
   type: EventType;
+  date?: string;
 }
 
 // The SkillEvent, PersonEvent, and TeamEvent interfaces represent the data structures (built from data-points) that will be stored in the registry

@@ -46,7 +46,7 @@ export class TimeSeriesDb {
       this.sort();
     }
     const eventsDb: EventsMap = new Map();
-    for (const events of this._db.values()) {
+    for (const [date, events] of this._db) {
       for (const event of events) {
         if (event.type === type) {
           if (eventsDb.has(event.data.tag)) {
@@ -54,6 +54,7 @@ export class TimeSeriesDb {
               `Duplicate event ${event.type} ${event.data.tag} found`,
             );
           }
+          event.data.date = date.toISOString();
           eventsDb.set(event.data.tag, event.data);
         }
       }
@@ -61,7 +62,9 @@ export class TimeSeriesDb {
     return eventsDb;
   }
 
-  static getEntriesFromEventsDb(eventsMap: EventsMap): Record<string, RegistryData> {
+  static getEntriesFromEventsDb(
+    eventsMap: EventsMap,
+  ): Record<string, RegistryData> {
     return Object.fromEntries(eventsMap);
   }
 }
@@ -73,7 +76,9 @@ export type DbInsertRegistryDataFn = (
   data: RegistryData,
 ) => void;
 
-export function createDbInsertRegistryDataFn(db: TimeSeriesDb): DbInsertRegistryDataFn {
+export function createDbInsertRegistryDataFn(
+  db: TimeSeriesDb,
+): DbInsertRegistryDataFn {
   return (date: LibDate, type: EventType, data: RegistryData) => {
     db.insert(date, { type, data });
   };

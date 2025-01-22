@@ -42,7 +42,7 @@ Deno.test("Server serves data ok", async () => {
     assertEquals(Object.keys(json.data).length >= 1, true);
     const person = Object.values(json.data)[0]!;
     VERBOSE && console.log(person);
-    assertEquals(Object.keys(person).length, 4);
+    assertEquals(Object.keys(person).length, 5);
     assertHasKeys(person, ["tag", "name", "skills", "type"]);
   } finally {
     process.stdout.cancel();
