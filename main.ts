@@ -1,3 +1,5 @@
+Deno.env.set("TZ", "GMT");
+
 import { populateDatabaseFromPaths } from "./src/populate.ts";
 import {
   createDbInsertRegistryDataFn,
