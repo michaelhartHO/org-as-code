@@ -3,15 +3,18 @@
 // Clients define their routes and handlers with Route.
 // The Request handler callback returns a string or object that will be 
 // serialized to JSON in the Response
+
+export type RequestHandlerFn = (request: Request) => string | object | Response;
+
 export type Route = [
   URLPattern | string,
-  (request: Request) => string | object,
+  RequestHandlerFn,
 ];
 
-// _Route is the internal representation of a Route
+// _Route is the internal representation of a Route, with the guaranteed URLPattern
 type _Route = [
   URLPattern,
-  (request: Request) => string | object,
+  RequestHandlerFn,
 ];
 
 export class Router {
@@ -24,30 +27,43 @@ export class Router {
     ]);
   }
 
-  public router(request: Request): Response {
+  private matchRoute(request: Request): { callback: RequestHandlerFn, url: URL } | null {
     const url = new URL(request.url);
-    const timestamp = new Date().toISOString();
-    let responseBody = {};
-    let status = 200;
-
-    let matched = false;
     for (const [route, callback] of this.routes) {
       if (route.test(url)) {
-        responseBody = {
-          timestamp,
-          data: callback(request),
-        };
-        matched = true;
-        break;
+        return { callback, url };
       }
     }
+    return null;
+  }
 
-    if (!matched) {
-      status = 404;
-      responseBody = { timestamp, data: { message: "NOT FOUND" } };
+  private createResponseBody(data: string | object, timestamp: string): object {
+    return {
+      timestamp,
+      data,
+    };
+  }
+
+  public router(request: Request): Response {
+    const timestamp = new Date().toISOString();
+    const matchedRoute = this.matchRoute(request);
+
+    if (matchedRoute) {
+      const { callback } = matchedRoute;
+      const data = callback(request);
+      if (data instanceof Response) {
+        return data;
+      }
+      const responseBody = this.createResponseBody(data, timestamp);
+      return this.createResponse(responseBody, 200);
     }
 
-    return new Response(JSON.stringify(responseBody, null, 2), {
+    const responseBody = this.createResponseBody({ message: "NOT FOUND" }, timestamp);
+    return this.createResponse(responseBody, 404);
+  }
+
+  private createResponse(body: object, status: number): Response {
+    return new Response(JSON.stringify(body, null, 2), {
       status,
       headers: {
         "content-type": "application/json; charset=utf-8",
