@@ -1,0 +1,70 @@
+{% macro renderTeamDetails(team) %}
+    <li>
+        <strong>Lead:</strong> {{ team.lead }}
+        <br>
+        <strong>Services:</strong>
+        <ul>
+            {% for service in team.services %}
+                <li>{{ service }}</li>
+            {% endfor %}
+        </ul>
+        <strong>Established:</strong> {{ team.date }}
+    </li>
+{% endmacro %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teams List</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+    #teams-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .team {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        width: 300px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .team h2 {
+        margin-top: 0;
+        color: #333;
+    }
+    .team ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .team ul li {
+        background-color: #e7f3ff;
+        border: 1px solid #cce7ff;
+        border-radius: 4px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    </style>
+</head>
+<body>
+    <div id="teams-list">
+        {% for tag, team in data %}
+        <div class="team">
+            <h2>{{ team.name }} ({{ tag }})</h2>
+            <ul>
+                {{ renderTeamDetails(team) }}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

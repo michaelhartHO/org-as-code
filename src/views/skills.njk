@@ -1,0 +1,82 @@
+{% macro renderSkillDetails(skill) %}
+<li>
+    <strong>Description:</strong> {{ skill.description }}
+    <br>
+    <strong>Reference:</strong> <a href="{{ skill.reference }}" target="_blank">{{ skill.reference }}</a>
+    <br>
+    <strong>Release Date:</strong> {{ skill.date }}
+</li>
+{% endmacro %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        #skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .skill {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .skill ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .skill ul li {
+            background-color: #e7f3ff;
+            border: 1px solid #cce7ff;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .skill a {
+            display: inline-block;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="skills-list">
+        {% for tag, skill in data %}
+        <div class="skill">
+            <h2>{{ tag }}</h2>
+            <ul>
+                {{ renderSkillDetails(skill) }}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+{% macro renderSkill(skill) %}
+    <li>{{ skill[0] }}: Level {{ skill[1] }}</li>
+{% endmacro %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developers List</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+    #developers-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .developer {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        width: 300px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    .developer h2 {
+        margin-top: 0;
+    }
+    .developer ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    .developer ul li {
+        background-color: #e7f3ff;
+        border: 1px solid #cce7ff;
+        border-radius: 4px;
+        padding: 5px;
+        margin-bottom: 5px;
+    }
+    </style>
+</head>
+<body>
+    <div id="developers-list">
+        {% for tag, developer in data %}
+        <div class="developer">
+            <h2>{{ developer.name }}</h2>
+            <p>Joining Date: {{ developer.date }}</p>
+            <ul>
+                {% for skill in developer.skills %}
+                    {{ renderSkill(skill) }}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
