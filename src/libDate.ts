@@ -11,17 +11,22 @@ export class LibDate {
   private _date: string;  // ISO8601 date string yyyy-mm-dd
 
   // constructor accepts either a Date object or a string date in a format accepted by Date.parse
-  constructor(date?: Date | string | LibDate) {
+  constructor(date?: LibDate | Date | string) {
     if (date instanceof LibDate) {
       this._date = date._date;
     } else if (typeof date === "string") {
-      const parsed = DateParser.parse(date) ||
-        new Date().toISOString().slice(0, 10);
-      this._date = this._asISODateOnly(new Date(parsed));
+      const parsed = DateParser.parse(date);
+      if (!parsed) {
+        // failed to parse date, default to today
+        console.error(`Failed to parse date: ${date}`);
+        this._date = this._asISODateOnly(new Date());
+      } else {
+        this._date = this._asISODateOnly(new Date(parsed));
+      }
     } else if (date instanceof Date) {
       this._date = this._asISODateOnly(date);
     } else {
-      // failed to parse date, default to today
+      // No date given, default to today
       this._date = this._asISODateOnly(new Date());
     }
   }
