@@ -1,4 +1,4 @@
-import {RegistrarInterface} from "../../src/registrar.ts";
+import { RegistrarInterface } from "../../src/registrar.ts";
 
 export function register(registrar: RegistrarInterface) {
   registrar
