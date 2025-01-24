@@ -27,7 +27,6 @@ try {
 } catch (_error) {
   throw new Error(`Path does not exist: ${dataPointsRelativePath}`);
 }
-
 const paths = [
   `${dataPointsPath}/skills`,
   `${dataPointsPath}/teams`,
@@ -35,33 +34,30 @@ const paths = [
 ];
 await populateDatabaseFromPaths(dbInsertFn, paths);
 
-const skillsDb = db.getEventsDb(EventType.Skill);
-LOG_EVENTS_DB && console.log(skillsDb);
-const teamsDb = db.getEventsDb(EventType.Team);
-LOG_EVENTS_DB && console.log(teamsDb);
-const peopleDb = db.getEventsDb(EventType.Person);
-LOG_EVENTS_DB && console.log(peopleDb);
+LOG_EVENTS_DB && console.log(db.getEventsDb(EventType.Skill));
+LOG_EVENTS_DB && console.log(db.getEventsDb(EventType.Team));
+LOG_EVENTS_DB && console.log(db.getEventsDb(EventType.Person));
 
 const router = new Router([
   ["/", indexHandler],
   [
     "/people",
     (request) =>
-      peopleHandler(request, TimeSeriesDb.getEntriesFromEventsDb(peopleDb)),
+      peopleHandler(request, db.getEntriesForEventType(EventType.Person)),
   ],
   [
     "/skills",
     (request) =>
-      skillsHandler(request, TimeSeriesDb.getEntriesFromEventsDb(skillsDb)),
+      skillsHandler(request, db.getEntriesForEventType(EventType.Skill)),
   ],
   [
     "/teams",
     (request) =>
-      teamsHandler(request, TimeSeriesDb.getEntriesFromEventsDb(teamsDb)),
+      teamsHandler(request, db.getEntriesForEventType(EventType.Team)),
   ],
-  ["/api/skills", () => TimeSeriesDb.getEntriesFromEventsDb(skillsDb)],
-  ["/api/teams", () => TimeSeriesDb.getEntriesFromEventsDb(teamsDb)],
-  ["/api/people", () => TimeSeriesDb.getEntriesFromEventsDb(peopleDb)],
+  ["/api/skills", () => db.getEntriesForEventType(EventType.Skill)],
+  ["/api/teams", () => db.getEntriesForEventType(EventType.Team)],
+  ["/api/people", () => db.getEntriesForEventType(EventType.Person)],
 ]);
 
 Deno.serve(

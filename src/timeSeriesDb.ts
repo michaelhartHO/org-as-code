@@ -67,6 +67,10 @@ export class TimeSeriesDb {
   ): Record<string, RegistryData> {
     return Object.fromEntries(eventsMap);
   }
+
+  getEntriesForEventType(eventType: EventType): Record<string, RegistryData> {
+    return TimeSeriesDb.getEntriesFromEventsDb(this.getEventsDb(eventType));
+  }
 }
 
 // The DbInsertFn is the interface used by db clients to insert Registry data into the db

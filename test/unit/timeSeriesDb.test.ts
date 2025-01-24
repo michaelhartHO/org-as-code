@@ -103,8 +103,7 @@ Deno.test("insert 3 events 2 dates ok", async (t) => {
   });
 });
 
-Deno.test("getEventsDb ok", () => {
-  const timeSeriesDb = new TimeSeriesDb();
+const populateDb = (timeSeriesDb: TimeSeriesDb) => {
   const date1 = new LibDate();
   const date2 = new LibDate("2021-01-01");
   timeSeriesDb.insert(date1, {
@@ -153,6 +152,11 @@ Deno.test("getEventsDb ok", () => {
       skills: [["Poetry", 6]],
     },
   });
+};
+
+Deno.test("getEventsDb ok", () => {
+  const timeSeriesDb = new TimeSeriesDb();
+  populateDb(timeSeriesDb);
 
   const skillsEventsDb = timeSeriesDb.getEventsDb(EventType.Skill);
   assertEquals(skillsEventsDb.size, 3);
@@ -168,6 +172,28 @@ Deno.test("getEventsDb ok", () => {
   );
   assertEquals(
     peopleEventsDb.get("Kalvernard Tombolomblin")!.tag,
+    "Kalvernard Tombolomblin",
+  );
+});
+
+Deno.test("getEntriesForEventType ok", () => {
+  const timeSeriesDb = new TimeSeriesDb();
+  populateDb(timeSeriesDb);
+
+  const skills = timeSeriesDb.getEntriesForEventType(EventType.Skill);
+  assertEquals(Object.keys(skills).length, 3);
+  assertEquals(skills["Wizard Lvl 9"]!.tag, "Wizard Lvl 9");
+  assertEquals(skills["Poet Lvl 6"]!.tag, "Poet Lvl 6");
+  assertEquals(skills["Pilot Lvl 2"]!.tag, "Pilot Lvl 2");
+
+  const people = timeSeriesDb.getEntriesForEventType(EventType.Person);
+  assertEquals(Object.keys(people).length, 2);
+  assertEquals(
+    people["Haryward Belinquins"]!.tag,
+    "Haryward Belinquins",
+  );
+  assertEquals(
+    people["Kalvernard Tombolomblin"]!.tag,
     "Kalvernard Tombolomblin",
   );
 });
