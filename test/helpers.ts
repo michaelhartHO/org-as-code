@@ -27,8 +27,8 @@ export async function isPortInUse(port: number): Promise<boolean> {
 
 // Get a random free port within a range
 export async function getRandomFreePort(
-  low: number,
-  high: number,
+  low: number = 50000,
+  high: number = 51000,
 ): Promise<number> {
   const getRandomPort = () =>
     Math.floor(Math.random() * (high - low + 1)) + low;

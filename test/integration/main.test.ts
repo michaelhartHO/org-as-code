@@ -2,13 +2,13 @@
 // $ VERBOSE=true deno test --allow-all test/integration/main.test.ts
 
 import { assertEquals, assertStringIncludes } from "jsr:@std/assert";
-import { assertHasKeys } from "../helpers.ts";
+import { assertHasKeys, getRandomFreePort } from "../helpers.ts";
 
 const VERBOSE = Deno.env.get("VERBOSE") === "true";
 
 Deno.test("Server serves data ok", async (t) => {
   // Execute the app that runs the server
-  const PORT = 51234;
+  const PORT = await getRandomFreePort();
   const process = new Deno.Command(Deno.execPath(), {
     args: ["run", "--allow-all", "main.ts"],
     env: { SERVER_PORT: PORT.toString() },
