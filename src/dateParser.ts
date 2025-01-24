@@ -20,7 +20,7 @@ export class DateParser {
       if (parsed.isValid) {
         return parsed.toISODate();
       }
-    } catch (e) {
+    } catch (_e) {
       // Continue to other parsing attempts if Luxon fails
     }
 
@@ -54,7 +54,7 @@ export class DateParser {
         if (parsed.isValid) {
           return parsed.toISODate();
         }
-      } catch (e) {
+      } catch (_e) {
         continue;
       }
     }
@@ -65,7 +65,7 @@ export class DateParser {
       if (parsed.isValid) {
         return parsed.toISODate();
       }
-    } catch (e) {
+    } catch (_e) {
       // Failed to parse
     }
 
