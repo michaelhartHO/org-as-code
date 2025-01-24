@@ -14,25 +14,19 @@ import {
   teamsHandler,
 } from "./src/views/views.ts";
 
-const dataPointsRelativePath = "./sas-data";
 const PORT = parseInt(Deno.env.get("SERVER_PORT") || "8000", 10);
 const LOG_EVENTS_DB = Deno.env.get("LOG_EVENTS_DB") === "true";
 
 const db = new TimeSeriesDb();
 const dbInsertFn = createDbInsertRegistryDataFn(db);
-
-let dataPointsPath: string;
-try {
-  dataPointsPath = Deno.realPathSync(dataPointsRelativePath);
-} catch (_error) {
-  throw new Error(`Path does not exist: ${dataPointsRelativePath}`);
-}
-const paths = [
-  `${dataPointsPath}/skills`,
-  `${dataPointsPath}/teams`,
-  `${dataPointsPath}/people`,
+const relativePaths = [
+  `./sas-data/skills`,
+  `./sas-data/teams`,
+  `./sas-data/people`,
 ];
-await populateDatabaseFromPaths(dbInsertFn, paths);
+await populateDatabaseFromPaths(dbInsertFn, relativePaths);
+
+
 
 LOG_EVENTS_DB && console.log(db.getEventsDb(EventType.Skill));
 LOG_EVENTS_DB && console.log(db.getEventsDb(EventType.Team));

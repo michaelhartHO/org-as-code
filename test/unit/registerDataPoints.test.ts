@@ -16,6 +16,17 @@ import {
 
 const dataPointsPath = "./test/unit/data-points";
 
+Deno.test("Deno.realPathSync throws on path not found", async () => {
+  await assertRejects(
+    async () => {
+      await Deno.realPathSync("./non-existent-directory");
+    },
+    Error,
+    "No such file or director",
+  );
+});
+
+
 Deno.test("registerDataPoints inserts data-points ok", async () => {
   const dbInsertFn = spy();
   await registerDataPoints(
