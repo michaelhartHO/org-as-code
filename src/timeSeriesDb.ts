@@ -10,6 +10,8 @@ type TimeSeriesData = {
 
 type TimeSeriesMap = Map<LibDate, TimeSeriesData[]>;
 
+export type RegEntries = Record<string, RegistryData>;
+
 export class TimeSeriesDb {
   private _db: TimeSeriesMap;
   private _sorted: boolean = false;
@@ -64,11 +66,11 @@ export class TimeSeriesDb {
 
   static getEntriesFromEventsDb(
     eventsMap: EventsMap,
-  ): Record<string, RegistryData> {
+  ): RegEntries {
     return Object.fromEntries(eventsMap);
   }
 
-  getEntriesForEventType(eventType: EventType): Record<string, RegistryData> {
+  getEntriesForEventType(eventType: EventType): RegEntries {
     return TimeSeriesDb.getEntriesFromEventsDb(this.getEventsDb(eventType));
   }
 }

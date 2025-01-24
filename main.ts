@@ -3,9 +3,10 @@ Deno.env.set("TZ", "GMT");
 import { populateDatabaseFromPaths } from "./src/populate.ts";
 import {
   createDbInsertRegistryDataFn,
+  RegEntries,
   TimeSeriesDb,
 } from "./src/timeSeriesDb.ts";
-import { Router } from "./router.ts";
+import { ServerRouter } from "./serverRouter.ts";
 import { EventType } from "./src/types.ts";
 import {
   indexHandler,
@@ -26,13 +27,15 @@ const relativePaths = [
 ];
 await populateDatabaseFromPaths(dbInsertFn, relativePaths);
 
-
-
 LOG_EVENTS_DB && console.log(db.getEventsDb(EventType.Skill));
 LOG_EVENTS_DB && console.log(db.getEventsDb(EventType.Team));
 LOG_EVENTS_DB && console.log(db.getEventsDb(EventType.Person));
 
-const router = new Router([
+function apiHandler(regEntries: RegEntries): string {
+  return JSON.stringify(regEntries);
+}
+
+const router = new ServerRouter([
   ["/", indexHandler],
   [
     "/people",
@@ -49,9 +52,12 @@ const router = new Router([
     (request) =>
       teamsHandler(request, db.getEntriesForEventType(EventType.Team)),
   ],
-  ["/api/skills", () => db.getEntriesForEventType(EventType.Skill)],
-  ["/api/teams", () => db.getEntriesForEventType(EventType.Team)],
-  ["/api/people", () => db.getEntriesForEventType(EventType.Person)],
+  ["/api/skills", () => apiHandler(db.getEntriesForEventType(EventType.Skill))],
+  ["/api/teams", () => apiHandler(db.getEntriesForEventType(EventType.Team))],
+  [
+    "/api/people",
+    () => apiHandler(db.getEntriesForEventType(EventType.Person)),
+  ],
 ]);
 
 Deno.serve(
@@ -61,5 +67,5 @@ Deno.serve(
       console.log(`Server started at http://${hostname}:${port}`);
     },
   },
-  router.router.bind(router),
+  router.handle.bind(router),
 );
