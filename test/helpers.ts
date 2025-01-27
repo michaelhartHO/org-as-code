@@ -25,6 +25,30 @@ export async function isPortInUse(port: number): Promise<boolean> {
   }
 }
 
+/**
+ * Polls a specified port to check if it is in use within a given timeout period.
+ *
+ * @param port - The port number to check.
+ * @param pollTimeout - The interval in milliseconds between each poll.
+ * @param serverTimeout - The maximum duration in milliseconds to keep polling.
+ * @param polarity - The expected state of the port (true if the port should be in use, false otherwise). Defaults to true.
+ * @returns A promise that resolves when the port's state matches the expected polarity or the server timeout is reached.
+ */
+export async function pollPortInUse(
+  port: number,
+  pollTimeout: number,
+  serverTimeout: number,
+  polarity: boolean = true,
+): Promise<boolean> {
+  do {
+    if (polarity === await isPortInUse(port)) {
+      return true;
+    }
+    await new Promise((resolve) => setTimeout(resolve, pollTimeout));
+  } while ((serverTimeout -= pollTimeout) > 0);
+  return false;
+}
+
 // Get a random free port within a range
 export async function getRandomFreePort(
   low: number = 50000,

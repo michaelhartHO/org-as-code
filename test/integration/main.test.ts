@@ -1,25 +1,30 @@
 // run test with logging:
 // $ VERBOSE=true deno test --allow-all test/integration/main.test.ts
 
-import { assertEquals, assertStringIncludes } from "jsr:@std/assert";
-import { assertHasKeys, getRandomFreePort } from "../helpers.ts";
+import { assert, assertEquals, assertStringIncludes } from "jsr:@std/assert";
+import { assertHasKeys, getRandomFreePort, pollPortInUse } from "../helpers.ts";
 
 const VERBOSE = Deno.env.get("VERBOSE") === "true";
+const SERVER_POLL = 100;
+const SERVER_TIMEOUT = 1500;
 
 Deno.test("Application serves data ok", async (t) => {
   // Execute the application as a child process to use as our SUT
   const PORT = await getRandomFreePort();
-  const process = new Deno.Command(Deno.execPath(), {
+  const serverProcess = new Deno.Command(Deno.execPath(), {
     args: ["run", "--allow-all", "main.ts"],
     env: { SERVER_PORT: PORT.toString() },
     stdout: "piped",
     stderr: "piped",
   }).spawn();
 
-  // Give the server some time to start
-  await new Promise((resolve) => setTimeout(resolve, 100));
+  // Poll the server to ensure it is up and ready to be tested
+  assert(
+    await pollPortInUse(PORT, SERVER_POLL, SERVER_TIMEOUT),
+    `Server did not start on port ${PORT} within ${SERVER_TIMEOUT}ms`,
+  );
 
-  VERBOSE && console.log("process.pid", process.pid);
+  VERBOSE && console.log("process.pid", serverProcess.pid);
 
   try {
     await t.step(
@@ -74,10 +79,10 @@ Deno.test("Application serves data ok", async (t) => {
       },
     );
   } finally {
-    process.stdout.cancel();
-    process.stderr.cancel();
-    process.kill();
+    serverProcess.stdout.cancel();
+    serverProcess.stderr.cancel();
+    serverProcess.kill();
     // Give server time to stop
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await pollPortInUse(PORT, SERVER_POLL, SERVER_TIMEOUT, false);
   }
 });
